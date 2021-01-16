@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event registration</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <style>
+        body {
+
+            font-family: 'Roboto Slab', serif;
+            background-color: rgb(92, 238, 116);
+         }
+
+        .final {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title {
+
+            margin-top: 20px;
+            border-radius: 20px;
+            padding: 10px;
+            color: rgb(3, 1, 8);
+            text-shadow: 1.5px 1.5px rgb(255, 255, 255);
+        }
+        .main {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 70%;
+            background-color: rgba(27, 50, 179, 0.959);
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 1.25%;
+            box-shadow: 15px 15px 20px rgb(27, 92, 212);
+
+        }
+
+        .atr {
+            margin-top: 2%;
+            padding: 2px;
+            color: white;
+            text-align: left;
+            width: 99%;
+        }
+
+
+        .atr:hover {
+            color: rgb(255, 215, 0);
+
+        }
+
+        .atr input {
+            border-radius: 40px;
+        }
+
+        .atr input:hover {
+            background-color: gold;
+            box-shadow: 3px 3px 3px black;
+
+        }
+
+        .atr textarea {
+            border-radius: 40px;
+            width: 90%;
+        }
+        .atr textarea:hover {
+            background-color: gold;
+            box-shadow: 3px 3px 3px black;
+
+        }
+
+        .btn {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn button {
+            font-size: 1.2em;
+            color: white;
+            margin: 5px;
+            background-color: rgba(27, 50, 179, 0.959);
+            width: 100%;
+            margin-left: 100%;
+            border-radius: 14px;
+            box-shadow: 3px 3px 3px black;
+
+        }
+
+        .btn button:hover {
+            background-color: rgb(33, 236, 33);
+            color: black
+        }
+
+        .a {
+            margin-top: 1.5%;
+        }
+        .a a {
+
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            font-weight: 500;
+        }
+
+
+        .a a:hover {
+
+            font-weight: bold;
+        }
+
+        .s {
+            color: yellow;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class="final">
+
+        <div class="title">
+            <h1 id="title">
+                Event Registration
+            </h1>
+        </div>
+
+        <div class="main">
+
+            <form name="form" class="form" action="" onsubmit="return valid()" method="post">
+                {% csrf_token %}
+
+                <div class="atr" id="atr1">Event name : <input type="text" name="name" id="name"
+                        placeholder="Type event name..." required>
+                </div>
+                <span class="s" id="s1"></span>
+                <div class="atr" id="atr2">Location : <input type="text" name="location" id="location"
+                        placeholder="Type location..." required>
+                </div>
+                <span class="s" id="s2"></span>
+                <div class="atr" id="atr3">Link of poster: <input type="text" name="link" id="link"
+                        placeholder="Link...">
+                </div>
+                <span class="s" id="s3"></span>
+                <div class="atr" id="atr4">From : <input type="date" name="from" id="from" required> &nbsp; <input
+                        type="time" name="ftime" id="ftime" required>
+                </div>
+                <span class="s" id="s4"></span>
+                <div class="atr" id="atr5">To : <input type="date" name="to" id="to" required> &nbsp; <input type="time"
+                        name="ttime" id="ttime" required>
+                </div>
+                <span class="s" id="s5"></span>
+                <div class="atr" id="atr6">Reg. Deadline : <input type="date" name="dead" id="dead" required> &nbsp;
+                    <input type="time" name="dtime" id="dtime" required>
+                </div>
+                <span class="s" id="s6"></span>
+                <div class="atr" id="atr7">Email id : <input type="email" name="email" id="email"
+                        placeholder="abc@xyz.com" required>
+                </div>
+                <span class="s" id="s7"></span>
+                <div class="atr" id="atr8">Host password : <input type="password" name="password" id="password"
+                        placeholder="Type password..." required>
+                </div>
+                <span class="s" id="s8"></span>
+                <div class="atr" id="atr9">Description : <textarea placeholder="...Describe event..." name="desc"
+                        id="desc" cols="30" rows="3"></textarea>
+                </div>
+                <span class="s" id="s9"></span>
+
+                <div class="btn">
+                    <button type="submit" value="submit">Submit</button>
+
+                </div>
+            </form>
+
+        </div>
+
+        <div class="a">
+            <a href="home.html">Back to HomePage</a>
+
+        </div>
+    </div>
+
+    <!-- script goes here -->
+
+    <script>
+        // utility function to print error msg
+
+        function error(id, msg) {
+            document.getElementById(id).innerHTML =  msg;
+        }
+
+        function valid() {
+
+            var nam = document.getElementById('name').value;
+            var loc = document.getElementById('location').value;
+            var lin = document.getElementById('link').value;
+            var fro = document.getElementById('from').value;
+            var to = document.getElementById('to').value;
+            var dea = document.getElementById('dead').value;
+            var ema = document.getElementById('email').value;
+            var pas = document.getElementById('password').value;
+            var des = document.getElementById('desc').value;
+
+            // below variables are for date validation purpose
+
+            var date1 = new Date(document.getElementById('from').value).getDate();
+            var date2 = new Date(document.getElementById('to').value).getDate();
+            var year1 = new Date(document.getElementById('from').value).getFullYear();
+            var year2 = new Date(document.getElementById('to').value).getFullYear();
+            var mon1 = new Date(document.getElementById('from').value).getMonth();
+            var mon2 = new Date(document.getElementById('to').value).getMonth();
+            var date3 = new Date(document.getElementById('dead').value).getDate();
+            var mon3 = new Date(document.getElementById('dead').value).getMonth();
+            var year3 = new Date(document.getElementById('dead').value).getFullYear();
+
+
+
+
+
+            // name validation
+
+            if (!isNaN(nam)) {
+                error('s1', ' *Enter valid name');
+
+                return false;
+            }
+            if (1) {
+                error('s1', '');
+            }
+
+            // date range validation
+            if (year1 > year2) {
+                error('s4', ' *Enter valid date range');
+                return false;
+            }
+            else if (year1 == year2 && mon1 > mon2) {
+                error('s4', ' *Enter valid date range');
+                return false;
+            }
+            else if (mon1 == mon2 && date1 > date2) {
+                error('s4', ' *Enter valid date range');
+                return false;
+            }
+            if (1) {
+                error('s4', '');
+            }
+
+            // deadlinne validation
+            // deadline should not greater than event ending date
+
+            if (year3 > year2) {
+                error('s6', ' *Enter valid deadline');
+                return false;
+            }
+            else if (year3 == year2 && mon3 > mon2) {
+                error('s6', ' *Enter valid deadline');
+                return false;
+            }
+            else if (mon3 == mon2 && date3 > date2) {
+                error('s6', ' *Enter valid deadline');
+                return false;
+            }
+            if (1) {
+                error('s6', '');
+            }
+
+
+            //    password validation
+            if (pas.length < 5) {
+                error('s8', ' *Length should be >5');
+                return false;
+            }
+            if (1) {
+                error('s8', '');
+            }
+        
+
+
+        }
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
