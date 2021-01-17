@@ -1,8 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from app.models import Event
 # Create your views here.
-def home(request):
-    return HttpResponse("Ok you are done bruda")
 
 def home1(request):
     return render(request,"home.html")
@@ -23,5 +21,14 @@ def home2(request):
         dti1= request.POST['dtime']
         data= Event(name=nam1,location=loc1,link=lin1,from_date=fro1,to_date=to1,Reg_deadline=dea1,email=ema1,password=pas1,from_time=fti1,to_time=tti1,deadline_time=dti1,description=des1)
         data.save()
+        subject="Event registered successfully..."
+        message="Thank you for using our service..\n"\
+                +"Event name : "+ nam1\
+                +"\nEvent ID : "+ str(data.id)\
+                +"\n\nUse this ID to access Event Dashboard"
+        send_mail(subject,message,
+        'jangotry123@gmail.com',
+        [ema1],
+        fail_silently=False)
         return render(request,"home.html")
     return render(request,"event.html")
