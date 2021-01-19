@@ -1,9 +1,9 @@
 from django.shortcuts import render, HttpResponse
-from app.models import Event,Participant
+from urltest.models import Event,Participant
 from django.core.mail import send_mail
 import datetime
 
-# Participant registration
+# Create your views here.
 def part(request):
     c=[]
     c1=[]
@@ -16,17 +16,18 @@ def part(request):
             
            if request.POST.get(obj.name,False):
                c.append(obj.name)
-            # pevents=request.POST.get(obj.name,False)
-        ptype1=request.POST.get('type',False)
-        if(ptype1=="Individual"):
-            people=0
-            ptype='I'
-        if(ptype1=="Group"):
-            ptype='G'
-            people=request.POST['people']
-        # print(pname,c,ptype)
-        data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
-        data1.save()
+            
+        if len(c)!=0:
+            ptype1=request.POST.get('type',False)
+            if(ptype1=="Individual"):
+                people=0
+                ptype='I'
+            if(ptype1=="Group"):
+                ptype='G'
+                people=request.POST['people']
+            if(ptype1!=False):
+                data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
+                data1.save()
         return render(request,"home.html")
     context={ 'content': coming_events }
     return render(request,"part.html",context)
