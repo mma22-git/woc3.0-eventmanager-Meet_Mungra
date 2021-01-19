@@ -1,8 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from app.models import Event
 # Create your views here.
-def home(request):
-    return HttpResponse("Ok you are done bruda")
+
 
 def home1(request):
     return render(request,"home.html")
