@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant registration</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <style>
+        body {
+
+            font-family: 'Roboto Slab', serif;
+
+            background-color: rgb(92, 238, 116);
+        }
+
+        .final {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 12%;
+        }
+
+        .title {
+
+            margin-top: 20px;
+            border-radius: 20px;
+            padding: 10px;
+            color: rgb(3, 1, 8);
+            text-shadow: 1.5px 1.5px rgb(255, 255, 255);
+        }
+
+        .main {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            background-color: rgba(27, 50, 179, 0.959);
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 15px 15px 20px rgb(27, 92, 212);
+            padding: 0.1%;
+            padding-bottom: 1.25%;
+            padding-top: 1.25%;
+        }
+
+        .atr {
+            margin-top: 2%;
+            padding: 2px;
+            color: white;
+            text-align: left;
+            width: 99%;
+        }
+
+
+        .atr:hover {
+            color: rgb(255, 215, 0);
+
+        }
+
+        .atr input {
+            border-radius: 40px;
+
+        }
+
+        .atr input:hover {
+            background-color: gold;
+            box-shadow: 3px 3px 3px black;
+
+        }
+
+        .atr textarea {
+            border-radius: 40px;
+            width: 90%;
+        }
+
+        .atr textarea:hover {
+            background-color: gold;
+            box-shadow: 3px 3px 3px black;
+
+        }
+
+        .btn {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .btn button {
+            font-size: 1.2em;
+            color: white;
+            margin: 5px;
+            background-color: rgba(27, 50, 179, 0.959);
+            width: 100%;
+            margin-left: 100%;
+            border-radius: 14px;
+            box-shadow: 3px 3px 3px black;
+            margin-top: 20px;
+        }
+
+        .btn button:hover {
+            background-color: rgb(33, 236, 33);
+            color: black
+        }
+
+        .a {
+            margin-top: 5%;
+            /* margin-bottom: 53%; */
+        }
+
+        .a a {
+
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            font-weight: 500;
+        }
+
+
+        .a a:hover {
+
+            font-weight: bold;
+        }
+
+        .s {
+            color: yellow;
+
+        }
+
+        .container {
+            margin: 2%;
+            padding-top: 1%;
+            background-color: rgba(27, 50, 179, 0.959);
+            color: rgb(255, 255, 255);
+            text-align: left;
+            border: 6px solid green;
+            /* box-shadow: 3px 3px 3px black; */
+            padding-left: 2%;
+        }
+
+        .span {
+            color: rgb(248, 186, 131)
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title" style="text-align: center;">Registration open for below events :</h1>
+    <div class="container">
+        {% for obj in content%}
+        <div>
+            <span class="span">Event Name: </span> {{obj.name }} <br><br>
+            <span class="span">Description:</span> {{obj.description}} <br>
+            <span class="span">Starts at:</span> {{obj.from_date}}, {{obj.from_time}} <br>
+            <span class="span">Ends at:</span> {{obj.to_date}}, {{obj.to_time}} <br>
+            <span class="span">Registration Deadline: </span>{{obj.Reg_deadline}}, {{obj.deadline_time}} <br>
+            <span class="span">Location:</span> {{obj.location}} <br>
+            <hr>
+
+
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="final">
+
+        <div class="title">
+            <h1 id="title">
+                Participate in Event
+            </h1>
+        </div>
+
+        <div class="main">
+
+            <form name="form" class="form" action="" onsubmit="return valid()" method="post">
+                {% csrf_token %}
+
+                <div class="atr" id="atr1">Name : <input type="text" name="name1" id="name1"
+                        placeholder="Type your name..." required>
+                </div>
+                <span class="s" id="s1"></span>
+                <div class="atr" id="atr2">Contact No. : <input type="text" name="contact" id="contact"
+                        placeholder="Your contact No." required>
+                </div>
+                <span class="s" id="s2"></span>
+                <div class="atr" id="atr3">Email ID : <input type="email" name="email1" id="email1"
+                        placeholder="abc@xyz.com"required>
+                </div>
+                <span class="s" id="s3"></span>
+                <div class="atr" id="atr4">Event :
+                    {% for obj in content %}
+                    <input type="checkbox" name="{{obj.name}}" id="{{obj.id}}" value="{{obj.name}}">{{obj.name}}
+                    {% endfor %}
+                </div>
+                <span class="s" id="s4"></span>
+                <div class="atr" id="atr5">
+                    Registration-Type : <input onclick="hide()" type="radio" name="type" id="type"
+                        value="Individual">Individual <input onclick="hide()" type="radio" name="type" id="type1"
+                        value="Group"> Group
+
+                </div>
+                <div class="atr" id="atr6">No. of People : <input type="number" name="people" id="people"required>
+                    
+                </div>
+                <span class="s" id="s6"></span>
+
+                <div class="btn">
+                    <button type="submit" value="submit">Submit</button>
+
+                </div>
+            </form>
+
+        </div>
+
+        <div class="a">
+            <a href="home.html">Back to HomePage</a>
+
+        </div>
+    </div>
+
+    <!-- script goes here -->
+
+    <script>
+        // utility function to print error msg
+
+        function error(id, msg) {
+            document.getElementById(id).innerHTML = msg;
+        }
+        function valid() 
+        {
+            var nam = document.getElementById('name1').value;
+            var con = document.getElementById('contact').value;
+            var ema = document.getElementById('email1').value;
+            var nop = document.getElementById('people').value;
+            
+            // name validation
+            
+            if (!isNaN(nam)) {
+                error('s1', ' *Enter valid name');
+                return false;
+            }
+            
+            if (1) {
+                error('s1', '');
+            }
+            
+            // contact number validation
+            if (isNaN(con)) {
+                error('s2', ' *Only digits are allowed');
+                return false;
+            }
+            if (con.length !=10) {
+                error('s2', ' *Length must be 10');
+                return false;
+            }
+            if (1) {
+                error('s2', '');
+            }
+            
+            // No. of people validation
+
+            var ok = document.querySelector('input[name=type]:checked').value;
+            if (ok == "Group")
+             {
+                if(nop<=1){
+                    error('s6', ' *Enter number > 1');
+                return false;
+
+                }
+
+            }
+            if (1) {
+                error('s1', '');
+            }
+
+        }
+
+        function enter() {
+            ok = document.querySelector('input[name=type]:checked').value;
+            if (ok == "Individual") {
+
+                document.getElementById('type') = "Individual";
+                return True;
+            }
+            if (ok == "Group") {
+
+                document.getElementById('type') = "Group";
+                return True;
+            }
+        }
+        function hide() {
+            ok = document.querySelector('input[name=type]:checked').value;
+            if (ok == "Individual") {
+
+                document.getElementById('atr6').style.display = "none";
+                document.getElementById('people') = 0;
+
+            }
+
+            if (ok == "Group") {
+
+                document.getElementById('atr6').style.display = "block";
+
+            }
+
+        }
+    </script>
+
+
+
+
+
+</body>
+
+</html>
