@@ -3,7 +3,7 @@ from app.models import Event,Participant
 from django.core.mail import send_mail
 import datetime
 
-# Create your views here.
+# Participant
 def part(request):
     c=[]
     c1=[]
