@@ -178,7 +178,7 @@
 
         <div class="main">
 
-            <form name="form" class="form" action="" onsubmit="return valid()" method="post">
+            <form name="form" class="form" action="" onsubmit="return (valid() && enter())" method="post">
                 {% csrf_token %}
 
                 <div class="atr" id="atr1">Name : <input type="text" name="name1" id="name1"
@@ -205,7 +205,7 @@
                         value="Group"> Group
 
                 </div>
-                <div class="atr" id="atr6">No. of People : <input type="number" name="people" id="people"required>
+                <div class="atr" id="atr6">No. of People : <input type="number" name="people" id="people"  >
                     
                 </div>
                 <span class="s" id="s6"></span>
@@ -264,50 +264,56 @@
             }
             
             // No. of people validation
-
-            var ok = document.querySelector('input[name=type]:checked').value;
-            if (ok == "Group")
+            
+            var ok1 = document.querySelector('input[name=type]:checked').value;
+            if (ok1 == "Group")
              {
-                if(nop<=1){
+                if(nop<=1 && nop!=null){
                     error('s6', ' *Enter number > 1');
                 return false;
 
                 }
 
             }
+            else{
+                return true;
+            }
             if (1) {
-                error('s1', '');
+                error('s6', '');
             }
 
         }
 
         function enter() {
-            ok = document.querySelector('input[name=type]:checked').value;
-            if (ok == "Individual") {
+            ok2 = document.querySelector('input[name=type]:checked').value;
+            if (ok2 == "Individual") {
 
                 document.getElementById('type') = "Individual";
-                return True;
+                return true;
             }
-            if (ok == "Group") {
-
+            if (ok2 == "Group") {
+                
                 document.getElementById('type') = "Group";
-                return True;
+                return true;
             }
+            
         }
         function hide() {
-            ok = document.querySelector('input[name=type]:checked').value;
-            if (ok == "Individual") {
+            ok3 = document.querySelector('input[name=type]:checked').value;
+            if (ok3 == "Individual") {
 
+                
+                
                 document.getElementById('atr6').style.display = "none";
-                document.getElementById('people') = 0;
-
+                
             }
 
-            if (ok == "Group") {
+            if (ok3 == "Group") {
 
                 document.getElementById('atr6').style.display = "block";
 
             }
+            
 
         }
     </script>
