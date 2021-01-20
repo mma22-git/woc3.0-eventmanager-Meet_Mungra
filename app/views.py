@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from urltest.models import Event,Participant
+from app.models import Event,Participant
 from django.core.mail import send_mail
 import datetime
 
