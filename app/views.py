@@ -53,11 +53,8 @@ def part(request):
                 
                 msg1 = msg1 + "\n\nEvent name : "+ str(c[i])\
                     +"\nLocation : "+ (elocations[i])\
-                    +"\nFrom : "+ str(efdates[i])\
-                    +"\t"+ str(eftimes[i])\
-                    +"\nTo : "\
-                    + str(etdates[i])\
-                    +"\t"+ str(ettimes[i])\
+                    +"\nFrom : "+ str(efdates[i]) + "  " +str(eftimes[i])\
+                    +"\nTo : "+ str(etdates[i]) +"  "+ str(ettimes[i])\
 
             
             msg1=msg1 +"\n\nPerson ID: "\
@@ -73,9 +70,8 @@ def part(request):
                                 to='+919099696053'
                             )
 
-            
-
-        
+            subject="Participation done suceessfully..."
+            send_mail(subject,msg1,'jangotry123@gmail.com',[pemail],fail_silently=False)
         return render(request,"home.html")
     context={ 'content': coming_events }
     return render(request,"part.html",context)
