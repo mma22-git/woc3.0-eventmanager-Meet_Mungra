@@ -2,7 +2,8 @@ from django.shortcuts import render, HttpResponse
 from app.models import Event,Participant
 from django.core.mail import send_mail
 import datetime
-
+import os
+from twilio.rest import Client
 # Create your views here.
 def part(request):
     c=[]
@@ -28,6 +29,53 @@ def part(request):
             if(ptype1!=False):
                 data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
                 data1.save()
+            account_sid = os.environ.get('id')
+            auth_token = os.environ.get('token')
+            client = Client(account_sid, auth_token)
+            b=[]
+            elocations=[]
+            efdates=[]
+            etdates =[]
+            eftimes=[]
+            ettimes=[]
+            for obj in coming_events:
+                for name in c:
+                    if name==obj.name:
+                        b.append(obj)
+            for obj1 in b:
+                elocations.append(obj1.location)
+                efdates.append(str(obj1.from_date))
+                etdates.append(str(obj1.to_date))
+                eftimes.append(str(obj1.from_time))
+                ettimes.append(str(obj1.to_time))
+            msg1="\nHello "+ pname +". Thank you for Registration.\n"
+            for i in range(len(c)):
+                
+                msg1 = msg1 + "\n\nEvent name : "+ str(c[i])\
+                    +"\nLocation : "+ (elocations[i])\
+                    +"\nFrom : "+ str(efdates[i])\
+                    +"\t"+ str(eftimes[i])\
+                    +"\nTo : "\
+                    + str(etdates[i])\
+                    +"\t"+ str(ettimes[i])\
+
+            
+            msg1=msg1 +"\n\nPerson ID: "\
+                    +str(data1.id)\
+                    +"\nRegistration type: "+ str(ptype1)
+            if ptype=='G':
+                msg1=msg1 \
+                    +"\nNo. of People : "+ str(people)
+            message = client.messages \
+                            .create(
+                                body=msg1,
+                                from_='+19167131128',
+                                to='+919099696053'
+                            )
+
+            
+
+        
         return render(request,"home.html")
     context={ 'content': coming_events }
     return render(request,"part.html",context)
