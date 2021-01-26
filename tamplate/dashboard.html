@@ -181,7 +181,7 @@
                         placeholder="Type Event ID..." required>
                 </div>
                 <span class="s" id="s1"></span>
-                <div class="atr" id="atr2">Host Password : <input type="text" name="password" id="password"
+                <div class="atr" id="atr2">Host Password : <input type="password" name="password" id="password"
                         placeholder="Type Password..." required>
                 </div>
                 <span class="s" id="s2"></span>
@@ -201,7 +201,7 @@
         </div>
 
 
-        {% if be == 0 and ae == 0 %}
+        {% if be == 0 and ae == 0 and ano == 0 %}
 
         <div class="container">
 
@@ -259,7 +259,7 @@
         error('s1', "");
         error('s2', "");
     </script> -->
-    {% if ae == 1 %}
+    {% if ae == 1 and ano == 0 %}
 
     <script>
         function error(id, msg) {
@@ -269,7 +269,7 @@
     </script>
     {% endif %}
 
-    {% if be == 1 %}
+    {% if be == 1 and ano == 0 %}
 
     <script>
         function error(id, msg) {

@@ -40,10 +40,12 @@ def home2(request):
     return render(request,"event.html")
 def part(request):
     c=[]
-    c1=[]
+    
     pars=Participant.objects.all()
     coming_events=Event.objects.filter(Reg_deadline__gte=datetime.datetime.now())
     if request.method=="POST":
+        constrain=0
+        ername=""
         pname=request.POST['name1']
         pcontact=request.POST['contact']
         pemail=request.POST['email1']
@@ -51,7 +53,15 @@ def part(request):
             
            if request.POST.get(obj.name,False):
                c.append(obj.name)
-            
+        for obj1 in pars:
+            if pname==obj1.Name:
+                for ovj in c:
+                    res=obj1.Checked.find(ovj)
+                    if res!=-1:
+                        c=[]
+                        ername=ovj
+                        constrain=1
+                        break
         if len(c)!=0:
 
             ptype1=request.POST.get('type',False)
@@ -107,19 +117,29 @@ def part(request):
                                 from_='+19167131128',
                                 to='+919099696053'
                             )
-
+            return render(request,"home.html")
             
 
+        con1={
+            'ername':ername,
+            'constrain':constrain,
+            'content': coming_events
+        }
+        return render(request,"part.html",con1)
         
-        return render(request,"home.html")
     context={ 'content': coming_events }
     return render(request,"part.html",context)
 
 def dashboard(request):
+    ae=0
+    be=0
+    
+    ans=[]
     if request.method=='POST':
         id1=request.POST['ID']
         password=request.POST['password']
         ae=0
+        
         be=0
         ans=[]
         final=""
@@ -142,23 +162,20 @@ def dashboard(request):
             for obj in pars:
                 m=obj.Checked.find(final)
                 if (m!=-1):
-                    
-                    # if obj.Reg_type=="Individual":
-                    #     k="Individual"
-                    # else:
-                    #     k="Group"
-                    # obj.Reg_type=k
                     ans.append(obj)
+                   
                     
         
         
         context1={
             "ae":ae,
             "be":be,
-            "ans":ans
+            "ans":ans,
+          
         }
         
         return render(request,"dashboard.html",context1)
+    
     return render(request,"dashboard.html")
         
        

@@ -192,13 +192,17 @@
                 <div class="atr" id="atr3">Email ID : <input type="email" name="email1" id="email1"
                         placeholder="abc@xyz.com"required>
                 </div>
+
                 <span class="s" id="s3"></span>
                 <div class="atr" id="atr4">Event :
                     {% for obj in content %}
                     <input type="checkbox" name="{{obj.name}}" id="{{obj.id}}" value="{{obj.name}}">{{obj.name}}
                     {% endfor %}
                 </div>
-                <span class="s" id="s4"></span>
+                {% if constrain == 1 %}
+
+                <span class="s" id="s4">*You can't register in {{ername}} more than 1 time</span>
+                {% endif %}
                 <div class="atr" id="atr5">
                     Registration-Type : <input onclick="hide()" type="radio" name="type" id="type"
                         value="Individual">Individual <input onclick="hide()" type="radio" name="type" id="type1"
@@ -225,6 +229,9 @@
     </div>
 
     <!-- script goes here -->
+
+
+
 
     <script>
         // utility function to print error msg
