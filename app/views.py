@@ -4,78 +4,9 @@ from django.core.mail import send_mail
 import datetime
 import os
 from twilio.rest import Client
+
+
 # Create your views here.
-def part(request):
-    c=[]
-    c1=[]
-    coming_events=Event.objects.filter(Reg_deadline__gte=datetime.datetime.now())
-    if request.method=="POST":
-        pname=request.POST['name1']
-        pcontact=request.POST['contact']
-        pemail=request.POST['email1']
-        for obj in coming_events:
-            
-           if request.POST.get(obj.name,False):
-               c.append(obj.name)
-            
-        if len(c)!=0:
-            ptype1=request.POST.get('type',False)
-            if(ptype1=="Individual"):
-                people=0
-                ptype='I'
-            if(ptype1=="Group"):
-                ptype='G'
-                people=request.POST['people']
-            if(ptype1!=False):
-                data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
-                data1.save()
-            account_sid = os.environ.get('id')
-            auth_token = os.environ.get('token')
-            client = Client(account_sid, auth_token)
-            b=[]
-            elocations=[]
-            efdates=[]
-            etdates =[]
-            eftimes=[]
-            ettimes=[]
-            for obj in coming_events:
-                for name in c:
-                    if name==obj.name:
-                        b.append(obj)
-            for obj1 in b:
-                elocations.append(obj1.location)
-                efdates.append(str(obj1.from_date))
-                etdates.append(str(obj1.to_date))
-                eftimes.append(str(obj1.from_time))
-                ettimes.append(str(obj1.to_time))
-            msg1="\nHello "+ pname +". Thank you for Registration.\n"
-            for i in range(len(c)):
-                
-                msg1 = msg1 + "\n\nEvent name : "+ str(c[i])\
-                    +"\nLocation : "+ (elocations[i])\
-                    +"\nFrom : "+ str(efdates[i]) + "  " +str(eftimes[i])\
-                    +"\nTo : "+ str(etdates[i]) +"  "+ str(ettimes[i])\
-
-            
-            msg1=msg1 +"\n\nPerson ID: "\
-                    +str(data1.id)\
-                    +"\nRegistration type: "+ str(ptype1)
-            if ptype=='G':
-                msg1=msg1 \
-                    +"\nNo. of People : "+ str(people)
-            message = client.messages \
-                            .create(
-                                body=msg1,
-                                from_='+19167131128',
-                                to='+919099696053'
-                            )
-
-            subject="Participation done suceessfully..."
-            send_mail(subject,msg1,'jangotry123@gmail.com',[pemail],fail_silently=False)
-        return render(request,"home.html")
-    context={ 'content': coming_events }
-    return render(request,"part.html",context)
-
 def home1(request):
     return render(request,"home.html")
 
@@ -107,3 +38,129 @@ def home2(request):
         fail_silently=False)
         return render(request,"home.html")
     return render(request,"event.html")
+def part(request):
+    c=[]
+    c1=[]
+    coming_events=Event.objects.filter(Reg_deadline__gte=datetime.datetime.now())
+    if request.method=="POST":
+        pname=request.POST['name1']
+        pcontact=request.POST['contact']
+        pemail=request.POST['email1']
+        for obj in coming_events:
+            
+           if request.POST.get(obj.name,False):
+               c.append(obj.name)
+            
+        if len(c)!=0:
+
+            ptype1=request.POST.get('type',False)
+            if(ptype1=="Individual"):
+                people=0
+                ptype='Individual'
+            if(ptype1=="Group"):
+                ptype='Group'
+                people=request.POST['people']
+            if(ptype1!=False):
+                data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
+                data1.save()
+            account_sid = os.environ.get('id')
+            auth_token = os.environ.get('token')
+            client = Client(account_sid, auth_token)
+            b=[]
+            elocations=[]
+            efdates=[]
+            etdates =[]
+            eftimes=[]
+            ettimes=[]
+            for obj in coming_events:
+                for name in c:
+                    if name==obj.name:
+                        b.append(obj)
+            for obj1 in b:
+                elocations.append(obj1.location)
+                efdates.append(str(obj1.from_date))
+                etdates.append(str(obj1.to_date))
+                eftimes.append(str(obj1.from_time))
+                ettimes.append(str(obj1.to_time))
+            msg1="\nHello "+ pname +". Thank you for Registration.\n"
+            for i in range(len(c)):
+                
+                msg1 = msg1 + "\n\nEvent name : "+ str(c[i])\
+                    +"\nLocation : "+ (elocations[i])\
+                    +"\nFrom : "+ str(efdates[i])\
+                    +"\t"+ str(eftimes[i])\
+                    +"\nTo : "\
+                    + str(etdates[i])\
+                    +"\t"+ str(ettimes[i])\
+
+            
+            msg1=msg1 +"\n\nPerson ID: "\
+                    +str(data1.id)\
+                    +"\nRegistration type: "+ str(ptype1)
+            if ptype=='G':
+                msg1=msg1 \
+                    +"\nNo. of People : "+ str(people)
+            message = client.messages \
+                            .create(
+                                body=msg1,
+                                from_='+19167131128',
+                                to='+919099696053'
+                            )
+
+            
+
+        
+        return render(request,"home.html")
+    context={ 'content': coming_events }
+    return render(request,"part.html",context)
+
+def dashboard(request):
+    if request.method=='POST':
+        id1=request.POST['ID']
+        password=request.POST['password']
+        ae=0
+        be=0
+        ans=[]
+        final=""
+        eves=Event.objects.all()
+        pars=Participant.objects.all()
+        # print(eves,pars)
+        for obj in eves:
+            
+            if (str(id1)==str(obj.id)):
+                ae=0
+                if password==obj.password:
+                    final=str(obj.name)
+                    break
+                else:
+                    be=1
+                    break
+            else:
+                ae=1
+        if ae==0 and be==0:
+            for obj in pars:
+                m=obj.Checked.find(final)
+                if (m!=-1):
+                    
+                    if obj.Reg_type=="Individual":
+                        k="Individual"
+                    else:
+                        k="Group"
+                    obj.Reg_type=k
+                    ans.append(obj)
+                    
+        
+        
+        context1={
+            "ae":ae,
+            "be":be,
+            "ans":ans
+        }
+        
+        return render(request,"dashboard.html",context1)
+    return render(request,"dashboard.html")
+        
+       
+
+
+                

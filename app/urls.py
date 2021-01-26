@@ -8,6 +8,7 @@ urlpatterns = [
     path('event.html', views.home2),
     path('home.html', views.home1),
     path('part.html', views.part),
+    path('dashboard.html', views.dashboard),
     
     
 

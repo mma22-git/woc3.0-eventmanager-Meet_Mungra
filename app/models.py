@@ -18,7 +18,7 @@ class Event(models.Model):
     description= models.TextField()
 
     def __str__(self):
-        return self.name
+        return str(self.id)
 
 class Participant(models.Model):
     c=(
@@ -32,7 +32,7 @@ class Participant(models.Model):
     No_of=models.CharField(max_length=10,default="0")
 
     def __str__(self):
-        return self.Name
+        return str(self.id)
 
 
      
