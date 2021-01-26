@@ -178,7 +178,7 @@
 
         <div class="main">
 
-            <form name="form" class="form" action="" onsubmit="return (valid() && enter())" method="post">
+            <form name="form" class="form" action="" onsubmit="return valid()" method="post">
                 {% csrf_token %}
 
                 <div class="atr" id="atr1">Name : <input type="text" name="name1" id="name1"
@@ -190,7 +190,7 @@
                 </div>
                 <span class="s" id="s2"></span>
                 <div class="atr" id="atr3">Email ID : <input type="email" name="email1" id="email1"
-                        placeholder="abc@xyz.com"required>
+                        placeholder="abc@xyz.com" required>
                 </div>
 
                 <span class="s" id="s3"></span>
@@ -200,17 +200,21 @@
                     {% endfor %}
                 </div>
                 {% if constrain == 1 %}
-
+                
                 <span class="s" id="s4">*You can't register in {{ername}} more than 1 time</span>
                 {% endif %}
                 <div class="atr" id="atr5">
                     Registration-Type : <input onclick="hide()" type="radio" name="type" id="type"
-                        value="Individual">Individual <input onclick="hide()" type="radio" name="type" id="type1"
-                        value="Group"> Group
-
-                </div>
-                <div class="atr" id="atr6">No. of People : <input type="number" name="people" id="people"  >
+                    value="Individual">Individual <input onclick="hide()" type="radio" name="type" id="type1"
+                    value="Group"> Group
                     
+                </div>
+                
+                {% if constrain1 == 1 %}
+                <span class="s" id="sp6">*Please select registration Type</span>
+                {% endif %}
+                <div class="atr" id="atr6">No. of People : <input type="number" name="people" id="people">
+
                 </div>
                 <span class="s" id="s6"></span>
 
@@ -239,88 +243,88 @@
         function error(id, msg) {
             document.getElementById(id).innerHTML = msg;
         }
-        function valid() 
-        {
+        function valid() {
             var nam = document.getElementById('name1').value;
             var con = document.getElementById('contact').value;
             var ema = document.getElementById('email1').value;
             var nop = document.getElementById('people').value;
-            
+
             // name validation
-            
+
             if (!isNaN(nam)) {
                 error('s1', ' *Enter valid name');
                 return false;
             }
-            
+
             if (1) {
                 error('s1', '');
             }
-            
+
             // contact number validation
             if (isNaN(con)) {
                 error('s2', ' *Only digits are allowed');
                 return false;
             }
-            if (con.length !=10) {
+            if (con.length != 10) {
                 error('s2', ' *Length must be 10');
                 return false;
             }
             if (1) {
                 error('s2', '');
             }
-            
+
             // No. of people validation
-            
+
             var ok1 = document.querySelector('input[name=type]:checked').value;
-            if (ok1 == "Group")
-             {
-                if(nop<=1 && nop!=null){
+            if (ok1 == "Group") {
+                if (nop <= 1 && nop != null) {
                     error('s6', ' *Enter number > 1');
-                return false;
+                    return false;
 
                 }
 
             }
-            else{
-                return true;
-            }
+           
             if (1) {
                 error('s6', '');
             }
 
-        }
 
-        function enter() {
+            
             ok2 = document.querySelector('input[name=type]:checked').value;
+            console.log(ok2);
             if (ok2 == "Individual") {
 
                 document.getElementById('type') = "Individual";
                 return true;
             }
             if (ok2 == "Group") {
-                
+
                 document.getElementById('type') = "Group";
                 return true;
             }
-            
+
         }
+
+
         function hide() {
             ok3 = document.querySelector('input[name=type]:checked').value;
             if (ok3 == "Individual") {
 
-                
-                
-                document.getElementById('atr6').style.display = "none";
-                
+
+
+                let dis = document.getElementById('people');
+                dis.disabled = true;
+
             }
 
             if (ok3 == "Group") {
 
-                document.getElementById('atr6').style.display = "block";
+                let dis = document.getElementById('people');
+                dis.disabled = false;
 
             }
-            
+
 
         }
     </script>

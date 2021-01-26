@@ -40,11 +40,11 @@ def home2(request):
     return render(request,"event.html")
 def part(request):
     c=[]
-    
     pars=Participant.objects.all()
     coming_events=Event.objects.filter(Reg_deadline__gte=datetime.datetime.now())
     if request.method=="POST":
         constrain=0
+        constrain1=0
         ername=""
         pname=request.POST['name1']
         pcontact=request.POST['contact']
@@ -65,64 +65,69 @@ def part(request):
         if len(c)!=0:
 
             ptype1=request.POST.get('type',False)
-            if(ptype1=="Individual"):
-                people=0
-                ptype='I'
-            if(ptype1=="Group"):
-                ptype='G'
-                people=request.POST['people']
-            if(ptype1!=False):
-                data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
-                data1.save()
-            account_sid = os.environ.get('id')
-            auth_token = os.environ.get('token')
-            client = Client(account_sid, auth_token)
-            b=[]
-            elocations=[]
-            efdates=[]
-            etdates =[]
-            eftimes=[]
-            ettimes=[]
-            for obj in coming_events:
-                for name in c:
-                    if name==obj.name:
-                        b.append(obj)
-            for obj1 in b:
-                elocations.append(obj1.location)
-                efdates.append(str(obj1.from_date))
-                etdates.append(str(obj1.to_date))
-                eftimes.append(str(obj1.from_time))
-                ettimes.append(str(obj1.to_time))
-            msg1="\nHello "+ pname +". Thank you for Registration.\n"
-            for i in range(len(c)):
-                
-                msg1 = msg1 + "\n\nEvent name : "+ str(c[i])\
-                    +"\nLocation : "+ (elocations[i])\
-                    +"\nFrom : "+ str(efdates[i])\
-                    +"\t"+ str(eftimes[i])\
-                    +"\nTo : "\
-                    + str(etdates[i])\
-                    +"\t"+ str(ettimes[i])\
-
             
-            msg1=msg1 +"\n\nPerson ID: "\
-                    +str(data1.id)\
-                    +"\nRegistration type: "+ str(ptype1)
-            if ptype=='G':
-                msg1=msg1 \
-                    +"\nNo. of People : "+ str(people)
-            message = client.messages \
-                            .create(
-                                body=msg1,
-                                from_='+19167131128',
-                                to='+919099696053'
-                            )
-            return render(request,"home.html")
+            if(ptype1==False):
+                constrain1=1
+            else:
+                if(ptype1=="Individual"):
+                    people=0
+                    ptype='I'
+                if(ptype1=="Group"):
+                    ptype='G'
+                    people=request.POST['people']
+                if(ptype1!=False):
+                    data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
+                    data1.save()
+                    account_sid = os.environ.get('id')
+                    auth_token = os.environ.get('token')
+                    client = Client(account_sid, auth_token)
+                    b=[]
+                    elocations=[]
+                    efdates=[]
+                    etdates =[]
+                    eftimes=[]
+                    ettimes=[]
+                    for obj in coming_events:
+                        for name in c:
+                            if name==obj.name:
+                                b.append(obj)
+                    for obj1 in b:
+                        elocations.append(obj1.location)
+                        efdates.append(str(obj1.from_date))
+                        etdates.append(str(obj1.to_date))
+                        eftimes.append(str(obj1.from_time))
+                        ettimes.append(str(obj1.to_time))
+                    msg1="\nHello "+ pname +". Thank you for Registration.\n"
+                    for i in range(len(c)):
+                        
+                        msg1 = msg1 + "\n\nEvent name : "+ str(c[i])\
+                            +"\nLocation : "+ (elocations[i])\
+                            +"\nFrom : "+ str(efdates[i])\
+                            +"\t"+ str(eftimes[i])\
+                            +"\nTo : "\
+                            + str(etdates[i])\
+                            +"\t"+ str(ettimes[i])\
+
+                    
+                    msg1=msg1 +"\n\nPerson ID: "\
+                            +str(data1.id)\
+                            +"\nRegistration type: "+ str(ptype1)
+                    if ptype=='G':
+                        msg1=msg1 \
+                            +"\nNo. of People : "+ str(people)
+                    message = client.messages \
+                                    .create(
+                                        body=msg1,
+                                        from_='+19167131128',
+                                        to='+919099696053'
+                                    )
+                    return render(request,"home.html")
             
 
         con1={
             'ername':ername,
             'constrain':constrain,
+            'constrain1':constrain1,
             'content': coming_events
         }
         return render(request,"part.html",con1)
