@@ -41,6 +41,7 @@ def home2(request):
 def part(request):
     c=[]
     c1=[]
+    pars=Participant.objects.all()
     coming_events=Event.objects.filter(Reg_deadline__gte=datetime.datetime.now())
     if request.method=="POST":
         pname=request.POST['name1']
@@ -56,9 +57,9 @@ def part(request):
             ptype1=request.POST.get('type',False)
             if(ptype1=="Individual"):
                 people=0
-                ptype='Individual'
+                ptype='I'
             if(ptype1=="Group"):
-                ptype='Group'
+                ptype='G'
                 people=request.POST['people']
             if(ptype1!=False):
                 data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
@@ -124,7 +125,7 @@ def dashboard(request):
         final=""
         eves=Event.objects.all()
         pars=Participant.objects.all()
-        # print(eves,pars)
+        
         for obj in eves:
             
             if (str(id1)==str(obj.id)):
@@ -142,11 +143,11 @@ def dashboard(request):
                 m=obj.Checked.find(final)
                 if (m!=-1):
                     
-                    if obj.Reg_type=="Individual":
-                        k="Individual"
-                    else:
-                        k="Group"
-                    obj.Reg_type=k
+                    # if obj.Reg_type=="Individual":
+                    #     k="Individual"
+                    # else:
+                    #     k="Group"
+                    # obj.Reg_type=k
                     ans.append(obj)
                     
         

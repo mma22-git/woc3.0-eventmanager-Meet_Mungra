@@ -226,7 +226,16 @@
                             <td>{{obj.Name}}</td>
                             <td>{{obj.Contact}}</td>
                             <td>{{obj.Email}}</td>
-                            <td>{{obj.Reg_type}}</td>
+                            {% if obj.Reg_type == "I" %}
+                            
+                            <td>Individual</td>
+                            
+                            {% endif %}
+                            {% if obj.Reg_type == "G" %}
+                            
+
+                            <td>Group</td>
+                            {% endif %}
 
                             <td>{{obj.No_of}}</td>
                         </tr>
