@@ -6,11 +6,12 @@ import os
 from twilio.rest import Client
 
 
-# Create your views here.
-def home1(request):
+
+def home(request):
     return render(request,"home.html")
 
-def home2(request):
+# Function for event registration
+def event(request):
     if request.method=='POST':
         nam1= request.POST['name']
         loc1= request.POST['location']
@@ -27,6 +28,7 @@ def home2(request):
         data= Event(name=nam1,location=loc1,link=lin1,from_date=fro1,to_date=to1,Reg_deadline=dea1,email=ema1,password=pas1,from_time=fti1,to_time=tti1,deadline_time=dti1,description=des1)
         data.save()
         
+        # send mail
         subject="Event registered successfully..."
         message="Thank you for using our service..\n"\
                 +"Event name : "+ nam1\
@@ -38,9 +40,14 @@ def home2(request):
         fail_silently=False)
         return render(request,"home.html")
     return render(request,"event.html")
+
+
+# Function for participant registration
 def part(request):
     c=[]
     pars=Participant.objects.all()
+
+    # coming_events is set of events whose deadline is not gone 
     coming_events=Event.objects.filter(Reg_deadline__gte=datetime.datetime.now())
     if request.method=="POST":
         constrain=0
@@ -78,6 +85,8 @@ def part(request):
                 if(ptype1!=False):
                     data1=Participant(Name=pname,Contact=pcontact,Email=pemail,Checked=c,Reg_type=ptype,No_of=people)
                     data1.save()
+
+                    # message sending from twilio
                     account_sid = os.environ.get('id')
                     auth_token = os.environ.get('token')
                     client = Client(account_sid, auth_token)
@@ -119,11 +128,11 @@ def part(request):
                                     .create(
                                         body=msg1,
                                         from_='+19167131128',
-                                        to='+919099696053'
+                                        to='+919099696053'     #sending msg to only registered number bacause of trail account
                                     )
                     return render(request,"home.html")
             
-
+        # con1 context is for constrains and to show error messages on front end
         con1={
             'ername':ername,
             'constrain':constrain,
@@ -135,7 +144,10 @@ def part(request):
     context={ 'content': coming_events }
     return render(request,"part.html",context)
 
+
+# Function for event dashboard
 def dashboard(request):
+    # ae , be are error perameters
     ae=0
     be=0
     
@@ -144,7 +156,6 @@ def dashboard(request):
         id1=request.POST['ID']
         password=request.POST['password']
         ae=0
-        
         be=0
         ans=[]
         final=""
@@ -169,9 +180,6 @@ def dashboard(request):
                 if (m!=-1):
                     ans.append(obj)
                    
-                    
-        
-        
         context1={
             "ae":ae,
             "be":be,
@@ -182,6 +190,9 @@ def dashboard(request):
         return render(request,"dashboard.html",context1)
     
     return render(request,"dashboard.html")
+                    
+        
+        
         
        
 

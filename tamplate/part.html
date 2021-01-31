@@ -11,7 +11,6 @@
         body {
 
             font-family: 'Roboto Slab', serif;
-
             background-color: rgb(92, 238, 116);
         }
 
@@ -73,17 +72,6 @@
 
         }
 
-        .atr textarea {
-            border-radius: 40px;
-            width: 90%;
-        }
-
-        .atr textarea:hover {
-            background-color: gold;
-            box-shadow: 3px 3px 3px black;
-
-        }
-
         .btn {
             width: 50%;
             display: flex;
@@ -112,7 +100,7 @@
 
         .a {
             margin-top: 5%;
-            /* margin-bottom: 53%; */
+
         }
 
         .a a {
@@ -140,7 +128,6 @@
             color: rgb(255, 255, 255);
             text-align: left;
             border: 6px solid green;
-            /* box-shadow: 3px 3px 3px black; */
             padding-left: 2%;
         }
 
@@ -200,16 +187,16 @@
                     {% endfor %}
                 </div>
                 {% if constrain == 1 %}
-                
+
                 <span class="s" id="s4">*You can't register in {{ername}} more than 1 time</span>
                 {% endif %}
                 <div class="atr" id="atr5">
                     Registration-Type : <input onclick="hide()" type="radio" name="type" id="type"
-                    value="Individual">Individual <input onclick="hide()" type="radio" name="type" id="type1"
-                    value="Group"> Group
-                    
+                        value="Individual">Individual <input onclick="hide()" type="radio" name="type" id="type1"
+                        value="Group"> Group
+
                 </div>
-                
+
                 {% if constrain1 == 1 %}
                 <span class="s" id="sp6">*Please select registration Type</span>
                 {% endif %}
@@ -232,10 +219,8 @@
         </div>
     </div>
 
+
     <!-- script goes here -->
-
-
-
 
     <script>
         // utility function to print error msg
@@ -274,7 +259,6 @@
             }
 
             // No. of people validation
-
             var ok1 = document.querySelector('input[name=type]:checked').value;
             if (ok1 == "Group") {
                 if (nop <= 1 && nop != null) {
@@ -284,13 +268,13 @@
                 }
 
             }
-           
+
             if (1) {
                 error('s6', '');
             }
 
 
-            
+
             ok2 = document.querySelector('input[name=type]:checked').value;
             console.log(ok2);
             if (ok2 == "Individual") {
@@ -310,16 +294,12 @@
         function hide() {
             ok3 = document.querySelector('input[name=type]:checked').value;
             if (ok3 == "Individual") {
-
-
-
                 let dis = document.getElementById('people');
                 dis.disabled = true;
 
             }
 
             if (ok3 == "Group") {
-
                 let dis = document.getElementById('people');
                 dis.disabled = false;
 

@@ -42,7 +42,6 @@
             justify-content: space-around;
             align-items: center;
             padding: 3%;
-
             box-shadow: 15px 15px 20px rgb(27, 92, 212);
 
         }
@@ -227,12 +226,12 @@
                             <td>{{obj.Contact}}</td>
                             <td>{{obj.Email}}</td>
                             {% if obj.Reg_type == "I" %}
-                            
+
                             <td>Individual</td>
-                            
+
                             {% endif %}
                             {% if obj.Reg_type == "G" %}
-                            
+
 
                             <td>Group</td>
                             {% endif %}
@@ -252,20 +251,14 @@
 
 
     <!-- script goes here -->
-    <!-- <script>
-        function error(id, msg) {
-            document.getElementById(id).innerHTML = msg;
-        }
-        error('s1', "");
-        error('s2', "");
-    </script> -->
+
     {% if ae == 1 %}
 
     <script>
         function error(id, msg) {
             document.getElementById(id).innerHTML = msg;
         }
-        error('s1', "*Event with given ID not exist");
+        error('s1', "*Event with given ID does not exist");
     </script>
     {% endif %}
 

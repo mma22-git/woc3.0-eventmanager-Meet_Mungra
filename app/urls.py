@@ -4,12 +4,10 @@ from app import views
 
 urlpatterns = [
     
-    path('', views.home1),
-    path('event.html', views.home2),
-    path('home.html', views.home1),
+    path('', views.home),
+    path('home.html', views.home),
+    path('event.html', views.event),
     path('part.html', views.part),
     path('dashboard.html', views.dashboard),
     
-    
-
-]
+    ]

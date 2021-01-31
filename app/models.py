@@ -1,10 +1,10 @@
 from django.db import models
 from datetime import datetime
 
-# Create your models here.
+
 class Event(models.Model):
 
-    name= models.CharField(max_length=30)
+    name= models.CharField(max_length=30, unique=True)
     location= models.CharField(max_length=200)
     link= models.URLField(blank=True)
     from_date= models.DateField()
@@ -18,7 +18,7 @@ class Event(models.Model):
     description= models.TextField()
 
     def __str__(self):
-        return str(self.id)
+        return self.name
 
 class Participant(models.Model):
     c=(
@@ -32,7 +32,7 @@ class Participant(models.Model):
     No_of=models.CharField(max_length=10,default="0")
 
     def __str__(self):
-        return str(self.id)
+        return self.Name
 
 
      
